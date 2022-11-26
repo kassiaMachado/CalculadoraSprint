@@ -14,18 +14,19 @@
 
         public List<Tarefa> TarefasFilha { get; set; } = new List<Tarefa>();
 
-        
+        public List<Tarefa> TarefasPai { get; set; } = new List<Tarefa>();
+
     }
 
     public class Pontuacao
     {
-        public int InicioMaisAntigo { get; set; }
+        public int IdaInicio { get; set; }
 
-        public int InicioMaisRecente { get; set; }
+        public int IdaFim { get; set; }
 
-        public int PrimeiroFim { get; set; }
+        public int VoltaInicio { get; set; }
 
-        public int UltimoFim { get; set; }
+        public int VoltaFim { get; set; }
 
     }
 }
