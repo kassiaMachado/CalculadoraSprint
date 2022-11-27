@@ -12,6 +12,7 @@ namespace CalculadoraSprint.Controllers
         // codigoTarefa, classe pontuacao
         private List<Pontuacao> PontuacaoTarefas { get; set; } = new List<Pontuacao>();
         private int PontuacaoFim { get; set; }
+        private List<int> _caminhoCritico { get; set; } = new List<int>();
 
         [HttpPost("calcular_tarefas")]
         public IActionResult CalcularTarefas(List<Tarefa> tarefas)
@@ -24,17 +25,15 @@ namespace CalculadoraSprint.Controllers
             CalcularVolta(tarefas);
             CalcularFolgaTotal();
             _bateriasCalculo.Reverse();
-            var pontuacoesIgualZero = PontuacaoTarefas.Where(x => _bateriasCalculo[0].Any(z => z ==x.CodigoTarefa)
-            && x.FolgaTotal == 0).ToList();
-
+            CalcularCaminhoCritico(0, tarefas);
 
             return Ok(new Resultado()
             {
                 Pontuacoes = PontuacaoTarefas,
-                PrazoMaximo = PontuacaoFim
-                 
+                PrazoMaximo = PontuacaoFim,
+                CaminhoCritico = String.Join(" - ", _caminhoCritico)
             });
-            
+
 
         }
 
@@ -150,9 +149,21 @@ namespace CalculadoraSprint.Controllers
             }
         }
 
-        private void CaminhoCritico(List<Pontuacao> pontuacoes)
+        private void CalcularCaminhoCritico(int posicao, List<Tarefa> tarefas)
         {
-            //foreach 
+            var pontuacoesIgualZero = PontuacaoTarefas.Where(x => _bateriasCalculo[posicao].Any(z => z == x.CodigoTarefa)
+         && x.FolgaTotal == 0).ToList();
+
+            foreach (var pontuacao in pontuacoesIgualZero)
+            {
+                _caminhoCritico.Add(pontuacao.CodigoTarefa);
+
+                var tarefa = tarefas.First(x => x.Codigo == pontuacao.CodigoTarefa);
+                posicao = posicao + 1;
+
+                if (_bateriasCalculo.Count > posicao)
+                    CalcularCaminhoCritico(posicao, tarefas);
+            }
         }
 
     }
