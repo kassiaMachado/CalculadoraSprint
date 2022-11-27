@@ -22,8 +22,20 @@ namespace CalculadoraSprint.Controllers
             CalcularIda(tarefas);
             ObterPontuacaoFim(tarefas);
             CalcularVolta(tarefas);
+            CalcularFolgaTotal();
+            _bateriasCalculo.Reverse();
+            var pontuacoesIgualZero = PontuacaoTarefas.Where(x => _bateriasCalculo[0].Any(z => z ==x.CodigoTarefa)
+            && x.FolgaTotal == 0).ToList();
 
-            return Ok(PontuacaoTarefas);
+
+            return Ok(new Resultado()
+            {
+                Pontuacoes = PontuacaoTarefas,
+                PrazoMaximo = PontuacaoFim
+                 
+            });
+            
+
         }
 
         private void CatalogarTarefasFilhas(List<Tarefa> tarefas)
@@ -129,5 +141,19 @@ namespace CalculadoraSprint.Controllers
                 }
             }
         }
+
+        private void CalcularFolgaTotal()
+        {
+            foreach (var item in PontuacaoTarefas)
+            {
+                item.FolgaTotal = item.VoltaFim - item.IdaFim;
+            }
+        }
+
+        private void CaminhoCritico(List<Pontuacao> pontuacoes)
+        {
+            //foreach 
+        }
+
     }
 }

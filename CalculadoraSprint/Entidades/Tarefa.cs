@@ -28,5 +28,7 @@
 
         public int VoltaFim { get; set; }
 
+        public int FolgaTotal { get; set; }
+
     }
 }
