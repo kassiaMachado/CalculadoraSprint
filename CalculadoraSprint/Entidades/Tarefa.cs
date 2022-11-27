@@ -10,16 +10,16 @@
 
         public List<int> TarefasDependentes { get; set; }
 
-        public Pontuacao Pontuacao { get; set; } = new Pontuacao();
-
+        // sucessoras da tarefa
         public List<Tarefa> TarefasFilha { get; set; } = new List<Tarefa>();
-
+        // predecessor da tarefa
         public List<Tarefa> TarefasPai { get; set; } = new List<Tarefa>();
 
     }
 
     public class Pontuacao
     {
+        public int CodigoTarefa { get; set; }
         public int IdaInicio { get; set; }
 
         public int IdaFim { get; set; }
