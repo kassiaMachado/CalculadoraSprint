@@ -1,11 +1,12 @@
 using CalculadoraSprint.Entidades;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace CalculadoraSprint.Controllers
 {
     [ApiController]
-
+    [EnableCors("AllowAll")]
     public class CalculadoraController : ControllerBase
     {
         private List<List<int>> _bateriasCalculo = new List<List<int>>();
