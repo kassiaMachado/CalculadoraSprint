@@ -1,0 +1,112 @@
+﻿@section Styles {
+    <link href="~/css/site.css" rel="stylesheet" />
+}
+
+    <div class="row">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4 mt-2">
+            <div class="titulo">
+                <p>CALCULADORA<br>SPRINT</p>
+            </div>
+        </div>
+
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Caminho Critico</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text display-6" id="caminhoCritico">A CALCULAR</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Prazo Total</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text display-6" id="prazoMaximo">A CALCULAR</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Adicionar Tarefa</h5>
+                </div>
+                <div class="card-body">
+                    <form id="formTarefa">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <div class="form-outline">
+                                        <input type="text" id="nomeTarefa" class="form-control form-control-lg"
+                                           required />
+                                        <label class="form-label" for="nomeTarefa">Tarefa</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <div class="form-outline">
+                                        <input type="number" id="tempoTarefa" min="0"
+                                           class="form-control form-control-lg" required />
+                                        <label class="form-label" for="tempoTarefa">Tempo de Entrega (dias)</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group mb-3">
+                                    <div class="form-outline">
+                                        <input type="text" id="tarefasDependentes"
+                                           class="form-control form-control-lg" />
+                                        <label class="form-label" for="tarefasDependentes">Dependentes</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn-primary btn-lg btn-floating"
+                                    style="background-color: #1f95cb;">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Tarefas</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table align-middle mb-0 bg-white" id="tabelaTarefas">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição Tarefa</th>
+                                <th>Tempo de Entrega</th>
+                                <th>Tarefa Dependente</th>
+                                <th>Resultado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}

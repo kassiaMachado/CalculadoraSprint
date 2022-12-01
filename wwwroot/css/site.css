@@ -1,0 +1,19 @@
+html,
+body {
+    background: #00e9d3;
+}
+
+.titulo {
+    margin-top: 25px;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    background: #ffffff;
+    color: #1f95cb;
+    border-radius: 20px;
+}
+
+    .titulo p {
+        margin-bottom: 0;
+        font-size: 1.6em;
+    }

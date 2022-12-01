@@ -1,22 +1,24 @@
-using CalculadoraSprint.Entidades;
-using Microsoft.AspNetCore.Cors;
+﻿using CalculadoraSprint.Entidades;
+using CalculadoraSprint.Models;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Diagnostics;
 
 namespace CalculadoraSprint.Controllers
 {
-    [ApiController]
-    [EnableCors("AllowAll")]
-    public class CalculadoraController : ControllerBase
+    public class HomeController : Controller
     {
-        private List<List<int>> _bateriasCalculo = new List<List<int>>();
+        private List<List<int>> _bateriasCalculo = new();
         // codigoTarefa, classe pontuacao
-        private List<Pontuacao> PontuacaoTarefas { get; set; } = new List<Pontuacao>();
+        private List<Pontuacao> PontuacaoTarefas { get; set; } = new();
         private int PontuacaoFim { get; set; }
-        private List<int> _caminhoCritico { get; set; } = new List<int>();
+        private List<int> _caminhoCritico { get; set; } = new();
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         [HttpPost("calcular_tarefas")]
-        public IActionResult CalcularTarefas(List<Tarefa> tarefas)
+        public IActionResult CalcularTarefas([FromBody] List<Tarefa> tarefas)
         {
             CatalogarTarefasFilhas(tarefas);
             CatalogarTarefasPai(tarefas);
@@ -34,8 +36,6 @@ namespace CalculadoraSprint.Controllers
                 PrazoMaximo = PontuacaoFim,
                 CaminhoCritico = String.Join(" - ", _caminhoCritico)
             });
-
-
         }
 
         private void CatalogarTarefasFilhas(List<Tarefa> tarefas)
@@ -46,7 +46,6 @@ namespace CalculadoraSprint.Controllers
                 tarefa.TarefasFilha.AddRange(filhas);
             }
         }
-
         private void CatalogarTarefasPai(List<Tarefa> tarefas)
         {
             foreach (var tarefa in tarefas.OrderByDescending(x => x.Codigo))
@@ -58,7 +57,6 @@ namespace CalculadoraSprint.Controllers
                 }
             }
         }
-
         private void GerarBateriasCalculo(List<Tarefa> tarefas)
         {
             var bateria = new List<int>();
@@ -76,7 +74,6 @@ namespace CalculadoraSprint.Controllers
             if (filhas.Count > 0)
                 GerarBateriasCalculo(filhas);
         }
-
         private void CalcularIda(List<Tarefa> tarefas)
         {
             foreach (var tarefasCalcular in _bateriasCalculo)
@@ -106,14 +103,12 @@ namespace CalculadoraSprint.Controllers
                 }
             }
         }
-
         private void ObterPontuacaoFim(List<Tarefa> tarefas)
         {
             var tarefasFim = tarefas.Where(x => x.TarefasFilha.Count == 0).ToList();
             var fim = PontuacaoTarefas.Where(x => tarefasFim.Any(z => z.Codigo == x.CodigoTarefa)).ToList();
             PontuacaoFim = fim.OrderByDescending(x => x.IdaFim).First().IdaFim;
         }
-
         private void CalcularVolta(List<Tarefa> tarefas)
         {
             _bateriasCalculo.Reverse();
@@ -141,7 +136,6 @@ namespace CalculadoraSprint.Controllers
                 }
             }
         }
-
         private void CalcularFolgaTotal()
         {
             foreach (var item in PontuacaoTarefas)
@@ -149,7 +143,6 @@ namespace CalculadoraSprint.Controllers
                 item.FolgaTotal = item.VoltaFim - item.IdaFim;
             }
         }
-
         private void CalcularCaminhoCritico(int posicao, List<Tarefa> tarefas)
         {
             var pontuacoesIgualZero = PontuacaoTarefas.Where(x => _bateriasCalculo[posicao].Any(z => z == x.CodigoTarefa)
@@ -166,6 +159,5 @@ namespace CalculadoraSprint.Controllers
                     CalcularCaminhoCritico(posicao, tarefas);
             }
         }
-
     }
 }
